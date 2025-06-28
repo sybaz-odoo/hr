@@ -18,6 +18,7 @@
         'views/salary_register_report_template.xml',
         'views/salary_register_report_template_pdf.xml',
     ],
+    'images': ['/static/description/main_screenshot.png'],
     'application': True,
     'installable': True,
     'auto_install': False,
