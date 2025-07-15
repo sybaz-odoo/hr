@@ -4,7 +4,7 @@
     'description': """
         Salary Register Report
     """,
-    "license": "LGPL-3",
+    "license": "AGPL-3",
     'author': "Sybaz",
     'website': "https://sybaz.com/",
     'category': 'Generic Modules/Human Resources',
