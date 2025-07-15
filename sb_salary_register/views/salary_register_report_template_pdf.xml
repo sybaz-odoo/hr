@@ -1,0 +1,109 @@
+<odoo>
+	<record id="sb_salary_register.action_salary_register_report" model="ir.actions.report">
+		<field name="name">Salary Register Report Pdf</field>
+		<field name="model">hr.payslip</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">sb_salary_register.salary_register_report_pdf</field>
+		<field name="report_file">sb_salary_register.salary_register_report_pdf</field>
+		<field name="binding_model_id" eval="False"/>
+		<field name="binding_type">report</field>
+	</record>
+	<template id="salary_register_report_pdf" name="Salary Register Report">
+        <t t-set="data_report_landscape" t-value="True"/>
+        <t t-set="full_width" t-value="True"/>
+		<t t-call="web.basic_layout">
+			<div class="header" style="text-align: center;">
+				<div><h2 t-esc="company_name"/></div>
+				<div><h3>Salary Register Report</h3></div>
+				<div><h5 style="font-weight: bold"><t t-esc="disp_month_year"/></h5></div>
+			</div>
+            <div class="page">
+                <style>
+                    body, header, footer {
+                    font-family: Arial,Helvetica,sans-serif !important;
+                    font-size: 14px;
+                    line-height: 1.25 !important;
+                    }
+                    table, th, td {
+                        border-collapse: collapse;
+                    }
+
+                    .table th, .table td {
+                        padding: 6px !important;
+                    }
+                </style>
+
+				<table class="table table-bordered" align="center">
+					<thead>
+						<tr>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Sr.#</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Employee Name</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Designation</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Department</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Basic Salary</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">House Rent Allowance</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Conveyance Allowance</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Gross Salary</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Provident Fund</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Professional Tax</th>
+							<th style="text-align: center; border:1px solid black; background-color: #CCCCCC;">Net Salary</th>
+						</tr>
+					</thead>
+					<body>
+						<t t-set="row" t-value="1"/>
+						<t t-foreach="det_data" t-as="line">
+							<t t-if="row % 2 == 0">
+								<tr>
+									<td style="border:1px solid black; text-align:center;"><span t-esc="row" /></td>
+									<td style="border:1px solid black;"><span t-esc="line['emp_name']" /></td>
+									<td style="border:1px solid black;"><span t-esc="line['emp_desg']" /></td>
+									<td style="border:1px solid black;"><span t-esc="line['emp_dept']" /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['emp_basic']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['emp_hra']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['emp_ca']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['salary_gross']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['emp_pf']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['emp_pt']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black;"><span t-esc="line['salary_net']" t-options='{"widget": "float", "precision": 2}' /></td>
+								</tr>
+							</t>
+							<t t-else="">
+								<tr>
+									<td style="border:1px solid black; background-color: #CCCCCC; text-align:center;"><span t-esc="row" /></td>
+									<td style="border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_name']" /></td>
+									<td style="border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_desg']" /></td>
+									<td style="border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_dept']" /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_basic']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_hra']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_ca']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['salary_gross']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_pf']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['emp_pt']" t-options='{"widget": "float", "precision": 2}' /></td>
+									<td style="text-align:right; border:1px solid black; background-color: #CCCCCC;"><span t-esc="line['salary_net']" t-options='{"widget": "float", "precision": 2}' /></td>
+								</tr>
+							</t>
+							<t t-set="row" t-value="row + 1"/>
+						</t>
+						<t t-set="gt_basic" t-value="sum([line['emp_basic'] for line in det_data])"/>
+						<t t-set="gt_hra" t-value="sum([line['emp_hra'] for line in det_data])"/>
+						<t t-set="gt_ca" t-value="sum([line['emp_ca'] for line in det_data])"/>
+						<t t-set="gt_gross" t-value="sum([line['salary_gross'] for line in det_data])"/>
+						<t t-set="gt_pf" t-value="sum([line['emp_pf'] for line in det_data])"/>
+						<t t-set="gt_pt" t-value="sum([line['emp_pt'] for line in det_data])"/>
+						<t t-set="gt_net" t-value="sum([line['salary_net'] for line in det_data])"/>
+						<tr>
+							<td style="text-align: right;" colspan="4"><strong>Grand Total</strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_basic" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_hra" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_ca" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_gross" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_pf" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_pt" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+							<td style="text-align:right;"><strong><t t-esc="gt_net" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						</tr>
+					</body>
+				</table>
+			</div>
+		</t>
+	</template>
+</odoo>
