@@ -1,0 +1,87 @@
+<odoo>
+    <template id="salary_register_report_template">
+        <t t-call="web.html_container">
+			<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0px;">
+				<div>
+					<h2><t t-esc="company_name"/></h2>
+					<h3>Salary Register Report</h3>
+					<div class="oe_structure"/>
+					<p><t t-esc="disp_month_year"/></p>
+				</div>
+				<div>
+					<p>
+						<form name="form_salary_register_report_xls" action="/web/salary_register_report" method="post">
+							<input type="hidden" name="month" t-att-value="month"/>
+							<input type="hidden" name="year" t-att-value="year"/>
+							<input type="hidden" name="display_type" value="xls"/>
+							<button type="submit" class="btn btn-primary">Export to Excel</button>
+						</form>
+					</p>
+					<p>
+						<form name="form_salary_register_report_pdf" action="/web/salary_register_report" method="post">
+							<input type="hidden" name="month" t-att-value="month"/>
+							<input type="hidden" name="year" t-att-value="year"/>
+							<input type="hidden" name="display_type" value="pdf"/>
+							<button type="submit" class="btn btn-primary">Export to PDF</button>
+						</form>
+					</p>
+				</div>
+			</div>
+			<table class="table table-striped" style="font-size: 12px; align-items: center;">
+				<thead>
+					<tr>
+						<th>Sr.#</th>
+						<th>Employee Name</th>
+						<th>Designation</th>
+						<th>Department</th>
+						<th style="text-align:right;">Basic Salary</th>
+						<th style="text-align:right;">House Rent Allowance</th>
+						<th style="text-align:right;">Conveyance Allowance</th>
+						<th style="text-align:right;">Gross Salary</th>
+						<th style="text-align:right;">Provident Fund</th>
+						<th style="text-align:right;">Professional Tax</th>
+						<th style="text-align:right;">Net Salary</th>
+					</tr>
+				</thead>
+ 				<tbody>
+					<t t-set="rec_no" t-value="1"/>
+					<t t-foreach="data" t-as="line">
+						<tr>
+							<td><t t-esc="rec_no"/></td>
+							<td><t t-esc="line['emp_name']"/></td>
+							<td><t t-esc="line['emp_desg']"/></td>
+							<td><t t-esc="line['emp_dept']"/></td>
+							<td style="text-align:right;"><t t-esc="line['emp_basic']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['emp_hra']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['emp_ca']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['salary_gross']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['emp_pf']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['emp_pt']" t-options='{"widget": "float", "precision": 2}'/></td>
+							<td style="text-align:right;"><t t-esc="line['salary_net']" t-options='{"widget": "float", "precision": 2}'/></td>
+						</tr>
+						<t t-set="rec_no" t-value="rec_no + 1"/>
+					</t>
+				</tbody>
+				<tfoot>
+					<t t-set="gt_basic" t-value="sum([line['emp_basic'] for line in data])"/>
+					<t t-set="gt_hra" t-value="sum([line['emp_hra'] for line in data])"/>
+					<t t-set="gt_ca" t-value="sum([line['emp_ca'] for line in data])"/>
+					<t t-set="gt_gross" t-value="sum([line['salary_gross'] for line in data])"/>
+					<t t-set="gt_pf" t-value="sum([line['emp_pf'] for line in data])"/>
+					<t t-set="gt_pt" t-value="sum([line['emp_pt'] for line in data])"/>
+					<t t-set="gt_net" t-value="sum([line['salary_net'] for line in data])"/>
+					<tr>
+						<td style="text-align: right;" colspan="4"><strong>Grand Total</strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_basic" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_hra" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_ca" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_gross" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_pf" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_pt" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+						<td style="text-align:right;"><strong><t t-esc="gt_net" t-options='{"widget": "float", "precision": 2}'/></strong></td>
+					</tr>
+				</tfoot>
+			</table>
+        </t>
+    </template>
+</odoo>
